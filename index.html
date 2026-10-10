@@ -5,149 +5,359 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fleet Empire Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #0b0f17;
+      color: #cbd5e1;
+      font-family: 'Inter', sans-serif;
+    }
+    .card {
+      background-color: #131b26;
+      border: 1px solid #1e293b;
+      border-radius: 0.75rem;
+    }
+    .input-field {
+      background-color: #0b0f17;
+      border: 1px solid #334155;
+      color: #f8fafc;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #eab308;
+      box-shadow: 0 0 0 1px #eab308;
+    }
+    .accent-text { color: #eab308; }
+    .positive-text { color: #4ade80; }
+    .negative-text { color: #f87171; }
+    .custom-checkbox {
+      accent-color: #eab308;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  </style>
 </head>
-<body class="bg-[#0b0f17] text-gray-200 min-h-screen font-sans p-4 sm:p-8">
-  <div class="max-w-4xl mx-auto space-y-6">
+<body class="min-h-screen p-4 sm:p-8">
 
-    <header class="border-b border-gray-800 pb-4 flex justify-between items-center">
+  <div class="max-w-6xl mx-auto space-y-6">
+
+    <header class="border-b border-gray-800 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
-        <h1 class="text-2xl font-bold tracking-wider text-white uppercase">Fleet Empire Hub</h1>
-        <p class="text-xs text-gray-400">Operations, Negotiations & Federal Logistics Optimizer</p>
+        <h1 class="text-2xl font-bold tracking-wider text-white uppercase">Null Shipping Co. Hub</h1>
+        <p class="text-xs text-gray-400">Complete Operations, Staff Payroll, Insurance & Financial Optimizer</p>
       </div>
-      <span class="text-xs bg-emerald-950 border border-emerald-600 text-emerald-400 px-3 py-1 rounded font-mono">v1.0 Live</span>
+      <div class="flex items-center gap-3">
+        <span class="text-xs bg-emerald-950 border border-emerald-600 text-emerald-400 px-3 py-1 rounded font-mono">v2.0 Master Live</span>
+      </div>
     </header>
 
     <!-- Navigation Tabs -->
-    <nav class="flex border-b border-gray-800 space-x-2 text-sm font-medium">
-      <button onclick="switchTab('hauls')" id="btn-hauls" class="px-4 py-2 border-b-2 border-amber-400 text-white font-semibold">Haul & Fuel</button>
-      <button onclick="switchTab('contracts')" id="btn-contracts" class="px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white">Business Contracts</button>
-      <button onclick="switchTab('federal')" id="btn-federal" class="px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white">Federal Co-Op</button>
+    <nav class="flex border-b border-gray-800 space-x-2 text-sm font-medium overflow-x-auto">
+      <button onclick="switchTab('hauls')" id="btn-hauls" class="px-4 py-2 border-b-2 border-amber-400 text-white font-semibold whitespace-nowrap">Haul & Fleet</button>
+      <button onclick="switchTab('staff')" id="btn-staff" class="px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white whitespace-nowrap">Staff & Insurance</button>
+      <button onclick="switchTab('financials')" id="btn-financials" class="px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white whitespace-nowrap">Bank & Loans</button>
+      <button onclick="switchTab('contracts')" id="btn-contracts" class="px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white whitespace-nowrap">Contracts & EV</button>
     </nav>
 
-    <!-- Tab 1: Haul & Fuel -->
+    <!-- TAB 1: HAUL & FLEET & MULTIPLIERS -->
     <div id="tab-hauls" class="space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
-          <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Route Inputs</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <section class="card p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Fleet & Revenue Engine</h2>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Active Trucks</label>
+              <input type="number" id="activeTrucks" value="22" class="w-full input-field rounded px-3 py-2 font-mono" />
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Runs / Hour per Truck</label>
+              <input type="number" id="runsPerHour" step="0.1" value="2.0" class="w-full input-field rounded px-3 py-2 font-mono" />
+            </div>
+          </div>
           <div>
-            <label class="block text-xs text-gray-400 mb-1">Base Contract Pay ($)</label>
-            <input type="number" id="basePay" value="20841" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+            <label class="block text-xs text-gray-400 mb-1">Avg Base Payout per Run ($)</label>
+            <input type="number" id="basePayout" value="47000" class="w-full input-field rounded px-3 py-2 font-mono" />
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs text-gray-400 mb-1">Distance (Miles)</label>
-              <input type="number" id="distance" value="450" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+              <label class="block text-xs text-gray-400 mb-1">Fuel Price ($/gal)</label>
+              <input type="number" id="fuelPrice" step="0.01" value="18.97" class="w-full input-field rounded px-3 py-2 font-mono" />
             </div>
             <div>
-              <label class="block text-xs text-gray-400 mb-1">ETA (Minutes)</label>
-              <input type="number" id="tripMinutes" step="0.1" value="3.91" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+              <label class="block text-xs text-gray-400 mb-1">Season / Passes</label>
+              <div class="flex items-center space-x-2 pt-2">
+                <input type="checkbox" id="vipPass" checked class="custom-checkbox rounded bg-gray-900 border-gray-600">
+                <span class="text-xs text-white">VIP (+20%)</span>
+              </div>
             </div>
-          </div>
-          <div>
-            <label class="block text-xs text-gray-400 mb-1">Cargo Type</label>
-            <select id="cargoType" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white">
-              <option value="Building Materials">Building Materials (+25%)</option>
-              <option value="Farm Equipment">Farm Equipment (+30%)</option>
-              <option value="Lumber">Lumber (+25%)</option>
-              <option value="Fertilizer">Fertilizer (+20%)</option>
-              <option value="General Freight">General Freight (0%)</option>
-            </select>
           </div>
         </section>
 
-        <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
-          <h2 class="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Market Conditions</h2>
-          <div>
-            <label class="block text-xs text-gray-400 mb-1">Flash Event</label>
-            <select id="flashEvent" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white">
-              <option value="none">None</option>
-              <option value="spring_construction">Spring Construction Rush (+30%)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-gray-400 mb-1">Fuel Price ($/gal)</label>
-            <input type="number" id="fuelPrice" step="0.01" value="18.97" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+        <section class="card p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Passes & Seasonal Modifiers</h2>
+          <div class="space-y-3 pt-2">
+            <label class="flex items-center space-x-3 cursor-pointer">
+              <input type="checkbox" id="summerSeason" checked class="custom-checkbox rounded bg-gray-900 border-gray-600">
+              <span class="text-sm font-medium text-white">Summer Season Active <span class="positive-text">(Pay x1.04, Fuel x1.02, Accidents x0.92)</span></span>
+            </label>
+            <label class="flex items-center space-x-3 cursor-pointer">
+              <input type="checkbox" id="autopilotPass" checked class="custom-checkbox rounded bg-gray-900 border-gray-600">
+              <span class="text-sm font-medium text-white">Autopilot Pass <span class="positive-text">(+1 Personal Free Truck)</span></span>
+            </label>
+            <label class="flex items-center space-x-3 cursor-pointer">
+              <input type="checkbox" id="advancedDispatcher" checked class="custom-checkbox rounded bg-gray-900 border-gray-600">
+              <span class="text-sm font-medium text-white">Advanced Dispatcher <span class="positive-text">(Best $/Mile Routing)</span></span>
+            </label>
           </div>
         </section>
+
       </div>
 
       <section class="bg-[#162231] border border-cyan-800/60 rounded-lg p-6">
-        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-4">Route Yield Output</h2>
+        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-4">Live Hourly Net Profit Breakdown</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
-            <span class="text-xs text-gray-400">Gross Payout</span>
-            <p id="outGross" class="text-lg font-bold text-white font-mono">$0</p>
+            <span class="text-xs text-gray-400">Gross Revenue</span>
+            <p id="outGrossRevenue" class="text-lg font-bold positive-text font-mono">$0</p>
           </div>
           <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
-            <span class="text-xs text-gray-400">Fuel Burn</span>
-            <p id="outFuel" class="text-lg font-bold text-rose-400 font-mono">-$0</p>
+            <span class="text-xs text-gray-400">Total Overhead (Staff+Ins)</span>
+            <p id="outTotalOverhead" class="text-lg font-bold negative-text font-mono">-$0</p>
           </div>
           <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
-            <span class="text-xs text-gray-400">Net Profit</span>
-            <p id="outNet" class="text-xl font-extrabold text-emerald-400 font-mono">$0</p>
+            <span class="text-xs text-gray-400">Bank Passive Interest</span>
+            <p id="outBankInterest" class="text-lg font-bold positive-text font-mono">+$0</p>
           </div>
           <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
-            <span class="text-xs text-gray-400">Profit / Min</span>
-            <p id="outRate" class="text-lg font-bold text-amber-400 font-mono">$0/min</p>
+            <span class="text-xs text-gray-400">Hourly Net Profit</span>
+            <p id="outNetProfit" class="text-xl font-extrabold accent-text font-mono">$0</p>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- Tab 2: Business Contracts -->
+    <!-- TAB 2: STAFF & INSURANCE -->
+    <div id="tab-staff" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <section class="card p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Staff Payroll (Per In-Game Month / 1h IRL)</h2>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Dispatcher Base Salary ($)</label>
+              <input type="number" id="dispatcherSalary" value="75000" class="w-full input-field rounded px-3 py-2 font-mono" />
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Fleet Manager Salary ($)</label>
+              <input type="number" id="fleetManagerSalary" value="14000" class="w-full input-field rounded px-3 py-2 font-mono" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Dispatcher Truck Fee per Semi ($5k/Semi)</label>
+            <input type="number" id="dispatcherTruckFee" value="75000" readonly class="w-full bg-[#0b0f17] border border-gray-800 rounded px-3 py-2 text-amber-400 font-mono" />
+          </div>
+          <div class="p-3 bg-[#0b0f17] rounded border border-gray-800 flex justify-between items-center">
+            <span class="text-xs text-gray-400">Total Staff Payroll Outflow:</span>
+            <span id="totalPayrollDisplay" class="text-sm font-bold negative-text font-mono">-$164,000 / mo</span>
+          </div>
+        </section>
+
+        <section class="card p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Insurance & Risk Profile</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Insurance Coverage Plan</label>
+            <select id="insurancePlan" class="w-full input-field rounded px-3 py-2 text-white">
+              <option value="166801">Premium Full-Coverage ($166,801/mo)</option>
+              <option value="104251">Standard Commercial ($104,251/mo)</option>
+              <option value="52126">Basic Liability ($52,126/mo)</option>
+              <option value="0">No Insurance (Risky)</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Overall Risk Score</label>
+              <input type="number" id="riskScore" value="51" class="w-full input-field rounded px-3 py-2 font-mono" />
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Deductible per Collision</label>
+              <input type="text" value="$1,650" readonly class="w-full bg-[#0b0f17] border border-gray-800 rounded px-3 py-2 text-gray-300 font-mono" />
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: BANK & LOANS -->
+    <div id="tab-financials" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <section class="card p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Bank Balance & Passive Interest</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Bank Account Balance ($)</label>
+            <input type="number" id="bankBalance" value="107186570" class="w-full input-field rounded px-3 py-2 font-mono" />
+          </div>
+          <div class="p-3 bg-[#0b0f17] rounded border border-gray-800 space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">Interest Rate:</span>
+              <span class="text-emerald-400 font-mono">+1% every 3 hours</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">Hourly Passive Accrual:</span>
+              <span id="bankInterestHourly" class="positive-text font-mono font-bold">+$357,288.57</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Active Business Loans & Financing</h2>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Commercial Loan ($)</label>
+              <select id="commercialLoan" class="w-full input-field rounded px-3 py-2 text-white text-xs">
+                <option value="0">None ($0/hr)</option>
+                <option value="76389">Commercial Loan ($76,389/hr)</option>
+                <option value="27000">Fleet Expansion Loan ($27,000/hr)</option>
+                <option value="8834">Small Business Loan ($8,834/hr)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Credit Rating (850 Max)</label>
+              <input type="number" id="creditRating" value="850" class="w-full input-field rounded px-3 py-2 font-mono" />
+            </div>
+          </div>
+          <div class="p-3 bg-[#0b0f17] rounded border border-gray-800">
+            <span class="text-xs text-gray-400">Truck Financing Rate (13% APR for 850 Rating)</span>
+            <p class="text-sm font-bold text-white font-mono">0 / 8 Financing Slots Used ($0/mo)</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- TAB 4: CONTRACTS & EV -->
     <div id="tab-contracts" class="space-y-6 hidden">
-      <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
+      <section class="card p-5 space-y-4">
         <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Business Offer Parameters</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div><label class="block text-xs text-gray-400 mb-1">Total Pallets</label><input type="number" id="cPallets" value="8194" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
-          <div><label class="block text-xs text-gray-400 mb-1">Rate / Pallet ($)</label><input type="number" id="cRate" value="1629" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
-          <div><label class="block text-xs text-gray-400 mb-1">Quoted Loads</label><input type="number" id="cLoads" value="257" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+          <div><label class="block text-xs text-gray-400 mb-1">Total Pallets</label><input type="number" id="cPallets" value="5248" class="w-full input-field rounded px-3 py-2 font-mono" /></div>
+          <div><label class="block text-xs text-gray-400 mb-1">Rate / Pallet ($)</label><input type="number" id="cRate" value="582" class="w-full input-field rounded px-3 py-2 font-mono" /></div>
+          <div><label class="block text-xs text-gray-400 mb-1">Quoted Loads (32 plt/load)</label><input type="number" id="cLoads" value="164" class="w-full input-field rounded px-3 py-2 font-mono" /></div>
         </div>
       </section>
 
       <section class="bg-[#162231] border border-cyan-800/60 rounded-lg p-6 space-y-4">
-        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider">Negotiation Expected Value (EV)</h2>
+        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider">Negotiation Expected Value (EV) with 10% Completion Bonus</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
           <div class="bg-[#0b0f17] p-4 rounded border border-gray-800">
-            <span class="text-xs text-gray-400">Accept As-Is (100%)</span>
+            <span class="text-xs text-gray-400">Accept As-Is (100% Success)</span>
             <p id="evAccept" class="text-lg font-bold text-white font-mono">$0</p>
           </div>
           <div class="bg-[#0b0f17] p-4 rounded border border-emerald-900">
             <span class="text-xs text-emerald-400">Counter +15% (~97% Success)</span>
-            <p id="evCounter15" class="text-lg font-bold text-emerald-400 font-mono">$0</p>
+            <p id="evCounter15" class="text-lg font-bold positive-text font-mono">$0</p>
           </div>
           <div class="bg-[#0b0f17] p-4 rounded border border-gray-800">
             <span class="text-xs text-gray-400">Counter +30% (~79% Success)</span>
-            <p id="evCounter30" class="text-lg font-bold text-amber-400 font-mono">$0</p>
+            <p id="evCounter30" class="text-lg font-bold accent-text font-mono">$0</p>
           </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- Tab 3: Federal Co-Op -->
-    <div id="tab-federal" class="space-y-6 hidden">
-      <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
-        <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Co-Op Setup</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div><label class="block text-xs text-gray-400 mb-1">Contract Pallets</label><input type="number" id="fPallets" value="2760" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
-          <div><label class="block text-xs text-gray-400 mb-1">Total Payout ($)</label><input type="number" id="fPayout" value="2266880" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
-          <div><label class="block text-xs text-gray-400 mb-1">Your Capacity (pal/hr)</label><input type="number" id="fHostCap" value="1515" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
-        </div>
-        <div><label class="block text-xs text-gray-400 mb-1">Partner Capacity Added (Board Co-Op pal/hr)</label><input type="number" id="fPartnerCap" value="1500" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
-      </section>
-
-      <section class="bg-[#162231] border border-cyan-800/60 rounded-lg p-6">
-        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-4">Run Projections</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Security Deposit (8%)</span><p id="fDeposit" class="text-lg font-bold text-amber-400 font-mono">$0</p></div>
-          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Solo Time</span><p id="fSoloTime" class="text-lg font-bold text-white font-mono">0.0 hrs</p></div>
-          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Co-Op Time</span><p id="fCoopTime" class="text-lg font-bold text-emerald-400 font-mono">0.0 hrs</p></div>
-          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Co-Op Gross / Hr</span><p id="fCoopRate" class="text-lg font-bold text-cyan-400 font-mono">$0/hr</p></div>
         </div>
       </section>
     </div>
 
   </div>
-  <script src="app.js"></script>
+
+  <script>
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+
+    function switchTab(tabId) {
+      document.getElementById('tab-hauls').classList.add('hidden');
+      document.getElementById('tab-staff').classList.add('hidden');
+      document.getElementById('tab-financials').classList.add('hidden');
+      document.getElementById('tab-contracts').classList.add('hidden');
+
+      document.getElementById('btn-hauls').className = "px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white whitespace-nowrap";
+      document.getElementById('btn-staff').className = "px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white whitespace-nowrap";
+      document.getElementById('btn-financials').className = "px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white whitespace-nowrap";
+      document.getElementById('btn-contracts').className = "px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white whitespace-nowrap";
+
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      document.getElementById('btn-' + tabId).className = "px-4 py-2 border-b-2 border-amber-400 text-white font-semibold whitespace-nowrap";
+    }
+
+    function calculateEmpire() {
+      // 1. Fleet & Revenue Inputs
+      const trucks = parseFloat(document.getElementById('activeTrucks').value) || 0;
+      const runs = parseFloat(document.getElementById('runsPerHour').value) || 0;
+      const basePay = parseFloat(document.getElementById('basePayout').value) || 0;
+      const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 0;
+
+      const hasVip = document.getElementById('vipPass').checked;
+      const hasSummer = document.getElementById('summerSeason').checked;
+      const hasAutopilot = document.getElementById('autopilotPass').checked;
+
+      let multiplier = 1.0;
+      if (hasVip) multiplier += 0.20;
+      if (hasSummer) multiplier += 0.04;
+
+      // Effective fleet size includes autopilot personal truck (+1)
+      const effectiveTrucks = trucks + (hasAutopilot ? 1 : 0);
+      const grossRevenue = (effectiveTrucks * runs * basePay) * multiplier;
+
+      // 2. Staff Payroll & Overhead
+      const dispSalary = parseFloat(document.getElementById('dispatcherSalary').value) || 0;
+      const fleetMgrSalary = parseFloat(document.getElementById('fleetManagerSalary').value) || 0;
+      const dispTruckFee = trucks * 5000;
+      document.getElementById('dispatcherTruckFee').value = "$" + dispTruckFee.toLocaleString();
+
+      const totalPayroll = dispSalary + fleetMgrSalary + dispTruckFee;
+      document.getElementById('totalPayrollDisplay').textContent = "-" + formatter.format(totalPayroll) + " / mo";
+
+      // 3. Insurance & Loans
+      const insuranceCost = parseFloat(document.getElementById('insurancePlan').value) || 0;
+      const loanCost = parseFloat(document.getElementById('commercialLoan').value) || 0;
+
+      const totalOverhead = totalPayroll + insuranceCost + loanCost;
+
+      // 4. Bank Interest (+1% every 3 hours = 0.333% per hour)
+      const bankBal = parseFloat(document.getElementById('bankBalance').value) || 0;
+      const hourlyInterest = (bankBal * 0.01) / 3;
+      document.getElementById('bankInterestHourly').textContent = "+" + formatter.format(hourlyInterest);
+
+      // 5. Net Profit
+      const netProfit = grossRevenue + hourlyInterest - totalOverhead;
+
+      // Render Outputs
+      document.getElementById('outGrossRevenue').textContent = "+" + formatter.format(grossRevenue);
+      document.getElementById('outTotalOverhead').textContent = "-" + formatter.format(totalOverhead);
+      document.getElementById('outBankInterest').textContent = "+" + formatter.format(hourlyInterest);
+      document.getElementById('outNetProfit').textContent = formatter.format(netProfit);
+
+      // 6. Contract EV Calculation
+      const cPallets = parseFloat(document.getElementById('cPallets').value) || 0;
+      const cRate = parseFloat(document.getElementById('cRate').value) || 0;
+      const baseTotal = cPallets * cRate;
+      const completionBonus = baseTotal * 0.10;
+      const grandTotalAccept = baseTotal + completionBonus;
+
+      document.getElementById('evAccept').textContent = formatter.format(grandTotalAccept);
+      document.getElementById('evCounter15').textContent = formatter.format((grandTotalAccept * 1.15) * 0.97);
+      document.getElementById('evCounter30').textContent = formatter.format((grandTotalAccept * 1.30) * 0.79);
+    }
+
+    // Attach listeners to all inputs
+    document.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('input', calculateEmpire);
+      el.addEventListener('change', calculateEmpire);
+    });
+
+    calculateEmpire();
+  </script>
 </body>
 </html>

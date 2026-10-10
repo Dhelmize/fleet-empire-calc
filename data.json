@@ -1,0 +1,31 @@
+{
+  "fuel": {
+    "baseline_mpg": 9.58,
+    "market_avg_price": 19.00
+  },
+  "seasons": {
+    "spring": {
+      "name": "Spring",
+      "global_pay_mult": 1.02,
+      "fuel_cost_mult": 1.03,
+      "wear_cost_mult": 1.05,
+      "bonuses": {
+        "Farm Equipment": 0.30,
+        "Building Materials": 0.25,
+        "Lumber": 0.25,
+        "Fertilizer": 0.20,
+        "Seed Stock": 0.20
+      }
+    }
+  },
+  "flash_events": {
+    "none": {
+      "name": "None",
+      "pay_bonus": 0.0
+    },
+    "spring_construction": {
+      "name": "Spring Construction Rush",
+      "pay_bonus": 0.30
+    }
+  }
+}

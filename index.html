@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleet Empire Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0b0f17] text-gray-200 min-h-screen font-sans p-4 sm:p-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+
+    <header class="border-b border-gray-800 pb-4 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold tracking-wider text-white uppercase">Fleet Empire Hub</h1>
+        <p class="text-xs text-gray-400">Operations, Negotiations & Federal Logistics Optimizer</p>
+      </div>
+      <span class="text-xs bg-emerald-950 border border-emerald-600 text-emerald-400 px-3 py-1 rounded font-mono">v1.0 Live</span>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex border-b border-gray-800 space-x-2 text-sm font-medium">
+      <button onclick="switchTab('hauls')" id="btn-hauls" class="px-4 py-2 border-b-2 border-amber-400 text-white font-semibold">Haul & Fuel</button>
+      <button onclick="switchTab('contracts')" id="btn-contracts" class="px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white">Business Contracts</button>
+      <button onclick="switchTab('federal')" id="btn-federal" class="px-4 py-2 border-b-2 border-transparent text-gray-400 hover:text-white">Federal Co-Op</button>
+    </nav>
+
+    <!-- Tab 1: Haul & Fuel -->
+    <div id="tab-hauls" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Route Inputs</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Base Contract Pay ($)</label>
+            <input type="number" id="basePay" value="20841" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">Distance (Miles)</label>
+              <input type="number" id="distance" value="450" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-1">ETA (Minutes)</label>
+              <input type="number" id="tripMinutes" step="0.1" value="3.91" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Cargo Type</label>
+            <select id="cargoType" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white">
+              <option value="Building Materials">Building Materials (+25%)</option>
+              <option value="Farm Equipment">Farm Equipment (+30%)</option>
+              <option value="Lumber">Lumber (+25%)</option>
+              <option value="Fertilizer">Fertilizer (+20%)</option>
+              <option value="General Freight">General Freight (0%)</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Market Conditions</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Flash Event</label>
+            <select id="flashEvent" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white">
+              <option value="none">None</option>
+              <option value="spring_construction">Spring Construction Rush (+30%)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Fuel Price ($/gal)</label>
+            <input type="number" id="fuelPrice" step="0.01" value="18.97" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" />
+          </div>
+        </section>
+      </div>
+
+      <section class="bg-[#162231] border border-cyan-800/60 rounded-lg p-6">
+        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-4">Route Yield Output</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
+            <span class="text-xs text-gray-400">Gross Payout</span>
+            <p id="outGross" class="text-lg font-bold text-white font-mono">$0</p>
+          </div>
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
+            <span class="text-xs text-gray-400">Fuel Burn</span>
+            <p id="outFuel" class="text-lg font-bold text-rose-400 font-mono">-$0</p>
+          </div>
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
+            <span class="text-xs text-gray-400">Net Profit</span>
+            <p id="outNet" class="text-xl font-extrabold text-emerald-400 font-mono">$0</p>
+          </div>
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800">
+            <span class="text-xs text-gray-400">Profit / Min</span>
+            <p id="outRate" class="text-lg font-bold text-amber-400 font-mono">$0/min</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab 2: Business Contracts -->
+    <div id="tab-contracts" class="space-y-6 hidden">
+      <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
+        <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Business Offer Parameters</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="block text-xs text-gray-400 mb-1">Total Pallets</label><input type="number" id="cPallets" value="8194" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+          <div><label class="block text-xs text-gray-400 mb-1">Rate / Pallet ($)</label><input type="number" id="cRate" value="1629" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+          <div><label class="block text-xs text-gray-400 mb-1">Quoted Loads</label><input type="number" id="cLoads" value="257" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+        </div>
+      </section>
+
+      <section class="bg-[#162231] border border-cyan-800/60 rounded-lg p-6 space-y-4">
+        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider">Negotiation Expected Value (EV)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+          <div class="bg-[#0b0f17] p-4 rounded border border-gray-800">
+            <span class="text-xs text-gray-400">Accept As-Is (100%)</span>
+            <p id="evAccept" class="text-lg font-bold text-white font-mono">$0</p>
+          </div>
+          <div class="bg-[#0b0f17] p-4 rounded border border-emerald-900">
+            <span class="text-xs text-emerald-400">Counter +15% (~97% Success)</span>
+            <p id="evCounter15" class="text-lg font-bold text-emerald-400 font-mono">$0</p>
+          </div>
+          <div class="bg-[#0b0f17] p-4 rounded border border-gray-800">
+            <span class="text-xs text-gray-400">Counter +30% (~79% Success)</span>
+            <p id="evCounter30" class="text-lg font-bold text-amber-400 font-mono">$0</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab 3: Federal Co-Op -->
+    <div id="tab-federal" class="space-y-6 hidden">
+      <section class="bg-[#131b26] border border-gray-800 rounded-lg p-5 space-y-4">
+        <h2 class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Co-Op Setup</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="block text-xs text-gray-400 mb-1">Contract Pallets</label><input type="number" id="fPallets" value="2760" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+          <div><label class="block text-xs text-gray-400 mb-1">Total Payout ($)</label><input type="number" id="fPayout" value="2266880" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+          <div><label class="block text-xs text-gray-400 mb-1">Your Capacity (pal/hr)</label><input type="number" id="fHostCap" value="1515" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+        </div>
+        <div><label class="block text-xs text-gray-400 mb-1">Partner Capacity Added (Board Co-Op pal/hr)</label><input type="number" id="fPartnerCap" value="1500" class="w-full bg-[#0b0f17] border border-gray-700 rounded px-3 py-2 text-white font-mono" /></div>
+      </section>
+
+      <section class="bg-[#162231] border border-cyan-800/60 rounded-lg p-6">
+        <h2 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-4">Run Projections</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Security Deposit (8%)</span><p id="fDeposit" class="text-lg font-bold text-amber-400 font-mono">$0</p></div>
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Solo Time</span><p id="fSoloTime" class="text-lg font-bold text-white font-mono">0.0 hrs</p></div>
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Co-Op Time</span><p id="fCoopTime" class="text-lg font-bold text-emerald-400 font-mono">0.0 hrs</p></div>
+          <div class="bg-[#0b0f17] p-3 rounded border border-gray-800"><span class="text-xs text-gray-400">Co-Op Gross / Hr</span><p id="fCoopRate" class="text-lg font-bold text-cyan-400 font-mono">$0/hr</p></div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

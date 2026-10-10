@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fleet Empire Hub | nihil.fyi</title>
+  <title>Fleet Empire Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script>
@@ -12,7 +12,7 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
           colors: {
-            brand: { bg: '#12141a', panel: '#1e222b', border: '#2a303c', input: '#0f1217', accent: '#f28f16', success: '#10b981', danger: '#ef4444' }
+            brand: { bg: '#12141a', panel: '#1e222b', border: '#2a303c', input: '#0f1217', accent: '#f28f16', success: '#10b981', danger: '#ef4444', info: '#06b6d4' }
           }
         }
       }
@@ -26,6 +26,7 @@
     input[type="number"]::-webkit-inner-spin-button, 
     input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type="number"] { -moz-appearance: textfield; }
+    input::placeholder { color: #334155; opacity: 1; } /* Dark placeholder text */
   </style>
 </head>
 <body class="bg-brand-bg text-slate-300 min-h-screen antialiased selection:bg-brand-accent selection:text-white flex flex-col font-sans">
@@ -36,7 +37,7 @@
       <div class="flex items-center gap-4">
         <div class="h-4 w-4 bg-brand-accent rounded-[3px]"></div>
         <h1 class="text-lg font-bold tracking-wider text-white uppercase mt-0.5">Fleet Empire Hub</h1>
-        <span class="hidden md:block ml-4 px-2 py-0.5 rounded text-[10px] font-mono text-brand-accent bg-brand-accent/10 border border-brand-accent/20">v3.1.0</span>
+        <span class="hidden md:block ml-4 px-2 py-0.5 rounded text-[10px] font-mono text-brand-accent bg-brand-accent/10 border border-brand-accent/20">Community Edition</span>
       </div>
       <div class="flex items-center gap-4 h-full">
         <div class="flex items-center gap-2 h-full border-l border-brand-border pl-4">
@@ -81,16 +82,16 @@
           <div class="space-y-4">
             <div>
               <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5 flex justify-between"><span>Semis</span> <span class="text-brand-accent">Double Trailers</span></label>
-              <input type="number" id="fleetSemis" value="15" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+              <input type="number" id="fleetSemis" placeholder="e.g. 15" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Box Trucks</label>
-                <input type="number" id="fleetBox" value="0" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                <input type="number" id="fleetBox" placeholder="0" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
               </div>
               <div>
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Vans</label>
-                <input type="number" id="fleetVans" value="0" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                <input type="number" id="fleetVans" placeholder="0" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
               </div>
             </div>
           </div>
@@ -106,23 +107,23 @@
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Dispatcher Base</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">$</span></div>
-                  <input type="number" id="dispBase" value="75000" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-2 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                  <input type="number" id="dispBase" placeholder="75000" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-2 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
                 </div>
               </div>
               <div>
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Manager Base</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">$</span></div>
-                  <input type="number" id="mgrBase" value="14000" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-2 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                  <input type="number" id="mgrBase" placeholder="14000" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-2 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
                 </div>
               </div>
             </div>
             <div>
               <label class="block text-[9px] font-semibold text-slate-500 uppercase mb-1.5 text-center">Dispatcher Per-Vehicle Fees</label>
               <div class="grid grid-cols-3 gap-2">
-                <div><label class="block text-[9px] text-slate-500 uppercase mb-1">Semi</label><input type="number" id="feeSemi" value="5000" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none" /></div>
-                <div><label class="block text-[9px] text-slate-500 uppercase mb-1">Box</label><input type="number" id="feeBox" value="2000" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none" /></div>
-                <div><label class="block text-[9px] text-slate-500 uppercase mb-1">Van</label><input type="number" id="feeVan" value="1000" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none" /></div>
+                <div><label class="block text-[9px] text-slate-500 uppercase mb-1">Semi</label><input type="number" id="feeSemi" placeholder="5000" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none" /></div>
+                <div><label class="block text-[9px] text-slate-500 uppercase mb-1">Box</label><input type="number" id="feeBox" placeholder="2000" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none" /></div>
+                <div><label class="block text-[9px] text-slate-500 uppercase mb-1">Van</label><input type="number" id="feeVan" placeholder="1000" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none" /></div>
               </div>
             </div>
           </div>
@@ -137,7 +138,7 @@
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5 flex justify-between"><span>Monthly Premium</span> <span class="text-brand-danger">Risk Scaled</span></label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">$</span></div>
-                  <input type="number" id="insPremium" value="166801" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-2 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                  <input type="number" id="insPremium" placeholder="166801" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-2 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
                 </div>
              </div>
           </div>
@@ -149,8 +150,8 @@
         <div class="w-full md:w-1/2 md:border-r border-brand-border md:pr-6 mb-4 md:mb-0">
           <h2 class="text-slate-400 font-bold uppercase tracking-wider text-[10px] mb-4 border-b border-brand-border pb-2">HQ Telemetry (IRL Hourly Drain)</h2>
           <div class="space-y-3 font-mono text-xs">
-            <div class="flex justify-between text-slate-300"><span>Staff Payroll</span> <span id="hqPayroll">$0</span></div>
-            <div class="flex justify-between text-slate-300"><span>Vehicle Fees</span> <span id="hqVehicles">$0</span></div>
+            <div class="flex justify-between text-slate-300"><span>Staff Payroll</span> <span id="hqPayroll">-$0</span></div>
+            <div class="flex justify-between text-slate-300"><span>Vehicle Fees</span> <span id="hqVehicles">-$0</span></div>
             <div class="flex justify-between text-brand-danger"><span>Insurance Drain</span> <span id="hqInsurance">-$0</span></div>
           </div>
         </div>
@@ -172,7 +173,7 @@
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Base Contract Pay</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-sm">$</span></div>
-                  <input type="number" id="basePay" value="20841" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-brand-success font-mono text-lg focus:border-brand-accent outline-none" />
+                  <input type="number" id="basePay" placeholder="20841" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-brand-success font-mono text-lg focus:border-brand-accent outline-none" />
                 </div>
               </div>
               <div>
@@ -188,14 +189,14 @@
               <div>
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Distance</label>
                 <div class="relative">
-                  <input type="number" id="distance" value="450" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                  <input type="number" id="distance" placeholder="450" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">mi</span></div>
                 </div>
               </div>
               <div>
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Trip ETA</label>
                 <div class="relative">
-                  <input type="number" id="tripMinutes" step="0.1" value="3.91" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                  <input type="number" id="tripMinutes" step="0.1" placeholder="3.91" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">min</span></div>
                 </div>
               </div>
@@ -203,7 +204,7 @@
                 <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Fuel Price</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">$</span></div>
-                  <input type="number" id="fuelPrice" step="0.01" value="18.97" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-8 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+                  <input type="number" id="fuelPrice" step="0.01" placeholder="18.97" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-8 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">/gal</span></div>
                 </div>
               </div>
@@ -230,11 +231,11 @@
               <div class="grid grid-cols-2 gap-3 border-l border-brand-border pl-4">
                 <div>
                   <label class="block text-[9px] text-slate-500 uppercase mb-1">Freight Perk Lv</label>
-                  <input type="number" id="lvlFreight" value="6" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none">
+                  <input type="number" id="lvlFreight" placeholder="6" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none">
                 </div>
                 <div>
                   <label class="block text-[9px] text-slate-500 uppercase mb-1">Logistics Perk Lv</label>
-                  <input type="number" id="lvlLogistics" value="6" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none">
+                  <input type="number" id="lvlLogistics" placeholder="6" class="w-full bg-brand-input border border-brand-border rounded px-2 py-1.5 text-slate-200 font-mono text-xs focus:border-brand-accent outline-none">
                 </div>
                 <div class="col-span-2">
                   <label class="block text-[9px] text-slate-500 uppercase mb-1">Truck Upgrade Tier</label>
@@ -281,28 +282,28 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Total Pallets</label>
-            <input type="number" id="cPallets" value="8194" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="cPallets" placeholder="8194" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Rate / Pallet</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-sm">$</span></div>
-              <input type="number" id="cRate" value="1629" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+              <input type="number" id="cRate" placeholder="1629" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
             </div>
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Quoted Loads</label>
-            <input type="number" id="cLoads" value="257" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="cLoads" placeholder="257" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 border-t border-brand-border pt-5">
           <div>
             <label class="block text-[10px] font-semibold text-brand-success uppercase mb-1.5">Counter +15% Probability (%)</label>
-            <input type="number" id="chance15" value="97" class="w-full bg-brand-input border border-brand-success/40 rounded px-3 py-2 text-brand-success font-mono text-sm focus:border-brand-success outline-none" />
+            <input type="number" id="chance15" placeholder="97" class="w-full bg-brand-input border border-brand-success/40 rounded px-3 py-2 text-brand-success font-mono text-sm focus:border-brand-success outline-none" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-brand-accent uppercase mb-1.5">Counter +30% Probability (%)</label>
-            <input type="number" id="chance30" value="79" class="w-full bg-brand-input border border-brand-accent/40 rounded px-3 py-2 text-brand-accent font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="chance30" placeholder="79" class="w-full bg-brand-input border border-brand-accent/40 rounded px-3 py-2 text-brand-accent font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
         </div>
       </div>
@@ -324,7 +325,7 @@
             <p id="evCounter30" class="text-2xl font-bold text-brand-accent font-mono">$0</p>
           </div>
         </div>
-        <div id="contractRecommendation" class="mt-4 text-center text-xs font-bold uppercase tracking-wide"></div>
+        <div id="contractRecommendation" class="mt-4 text-center text-xs font-bold uppercase tracking-wide">Waiting for input...</div>
       </div>
     </div>
 
@@ -335,22 +336,22 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Contract Pallets</label>
-            <input type="number" id="fPallets" value="2760" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="fPallets" placeholder="2760" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Total Payout</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-sm">$</span></div>
-              <input type="number" id="fPayout" value="2266880" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-brand-success font-mono text-sm focus:border-brand-accent outline-none" />
+              <input type="number" id="fPayout" placeholder="2266880" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-brand-success font-mono text-sm focus:border-brand-accent outline-none" />
             </div>
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Host Cap (Pal/Hr)</label>
-            <input type="number" id="fHostCap" value="1515" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="fHostCap" placeholder="1515" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-brand-accent uppercase mb-1.5">Partner Cap (Pal/Hr)</label>
-            <input type="number" id="fPartnerCap" value="1500" class="w-full bg-brand-input border border-brand-accent/50 rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="fPartnerCap" placeholder="1500" class="w-full bg-brand-input border border-brand-accent/50 rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
         </div>
         <div class="bg-brand-bg border border-brand-border rounded p-6 mt-4">
@@ -384,19 +385,19 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Active Drivers</label>
-            <input type="number" id="afkDrivers" value="14" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="afkDrivers" placeholder="14" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Deliveries / 10m</label>
-            <input type="number" id="afkRate" value="32" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="afkRate" placeholder="32" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Hours Offline</label>
-            <input type="number" id="afkHours" value="8" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="afkHours" placeholder="8" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Driver Wage (%)</label>
-            <input type="number" id="afkWage" value="12" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="afkWage" placeholder="12" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-5 mt-5 border-t border-brand-border">
@@ -410,7 +411,7 @@
           </label>
           <div>
             <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Maintenance Perk Lv</label>
-            <input type="number" id="lvlMaint" value="6" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-brand-info font-mono text-sm focus:border-brand-accent outline-none" />
+            <input type="number" id="lvlMaint" placeholder="6" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-brand-info font-mono text-sm focus:border-brand-accent outline-none" />
           </div>
         </div>
       </div>
@@ -441,10 +442,10 @@
         <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-6 space-y-6 flex flex-col">
           <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs border-b border-brand-border pb-2">Manufacturing Logistics</h2>
           <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Production (Pal/Mo)</label><input type="number" id="mfgProd" value="1414" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
-            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Upkeep ($/Mo)</label><input type="number" id="mfgUpkeep" value="65600" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
-            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Current Stock</label><input type="number" id="mfgStock" value="4243" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
-            <div><label class="block text-[10px] font-semibold text-brand-info uppercase mb-1.5">Warehouse Perk Lv</label><input type="number" id="lvlWarehouse" value="6" class="w-full bg-brand-input border border-brand-info/40 rounded px-3 py-2 text-brand-info font-mono text-sm focus:border-brand-info outline-none" /></div>
+            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Production (Pal/Mo)</label><input type="number" id="mfgProd" placeholder="1414" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
+            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Upkeep ($/Mo)</label><input type="number" id="mfgUpkeep" placeholder="65600" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
+            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Current Stock</label><input type="number" id="mfgStock" placeholder="4243" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
+            <div><label class="block text-[10px] font-semibold text-brand-info uppercase mb-1.5">Warehouse Perk Lv</label><input type="number" id="lvlWarehouse" placeholder="6" class="w-full bg-brand-input border border-brand-info/40 rounded px-3 py-2 text-brand-info font-mono text-sm focus:border-brand-info outline-none" /></div>
           </div>
           <div class="bg-brand-bg rounded border border-brand-border p-4 mt-auto">
             <div class="flex justify-between items-center mb-2"><span class="text-[10px] uppercase font-bold text-slate-400">Cost Basis Per Pallet</span><span id="outMfgCost" class="font-mono text-brand-accent font-bold">$0.00</span></div>
@@ -457,9 +458,9 @@
         <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-6 space-y-6 flex flex-col">
           <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs border-b border-brand-border pb-2">Vault Debt Servicing (Flat)</h2>
           <div class="grid grid-cols-2 gap-4">
-            <div class="col-span-2"><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Loan Principal ($)</label><input type="number" id="loanAmount" value="153100" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
-            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Term (Months)</label><input type="number" id="loanTerm" value="6" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
-            <div><label class="block text-[10px] font-semibold text-brand-danger uppercase mb-1.5">Flat Interest (%)</label><input type="number" id="loanRate" value="10" class="w-full bg-brand-input border border-brand-danger/40 rounded px-3 py-2 text-brand-danger font-mono text-sm focus:border-brand-danger outline-none" /></div>
+            <div class="col-span-2"><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Loan Principal ($)</label><input type="number" id="loanAmount" placeholder="153100" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
+            <div><label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Term (Months)</label><input type="number" id="loanTerm" placeholder="6" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" /></div>
+            <div><label class="block text-[10px] font-semibold text-brand-danger uppercase mb-1.5">Flat Interest (%)</label><input type="number" id="loanRate" placeholder="10" class="w-full bg-brand-input border border-brand-danger/40 rounded px-3 py-2 text-brand-danger font-mono text-sm focus:border-brand-danger outline-none" /></div>
           </div>
           <div class="bg-brand-bg rounded border border-brand-border p-4 mt-auto">
             <div class="flex justify-between items-center mb-2"><span class="text-[10px] uppercase font-bold text-slate-400">Total Interest Paid</span><span id="outLoanInt" class="font-mono text-brand-accent font-bold">$0</span></div>

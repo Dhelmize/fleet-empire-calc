@@ -16,7 +16,8 @@ async function init() {
     gameData = await res.json();
   } catch (e) {
     console.error("Critical Error: Failed to load data.json", e);
-    return;
+    // If JSON fails to load, create an empty object to prevent hard crashes
+    gameData = {};
   }
   attachListeners();
   runAllCalculations(); 
@@ -43,27 +44,27 @@ function attachListeners() {
 }
 
 function runAllCalculations() {
-  if (!gameData || Object.keys(gameData).length === 0) return;
-  calcOverhead();
-  calcHaul();
-  calcContracts();
-  calcFederal();
-  calcOffline();
-  calcCorpAssets();
+  // Try/Catch wrapping ensures that if one tab errors out (like missing JSON data), 
+  // the other tabs still calculate perfectly.
+  try { calcOverhead(); } catch (e) { console.error("Error in HQ Tab:", e); }
+  try { calcHaul(); } catch (e) { console.error("Error in Haul Tab:", e); }
+  try { calcContracts(); } catch (e) { console.error("Error in Contracts Tab:", e); }
+  try { calcFederal(); } catch (e) { console.error("Error in Federal Tab:", e); }
+  try { calcOffline(); } catch (e) { console.error("Error in Offline Tab:", e); }
+  try { calcCorpAssets(); } catch (e) { console.error("Error in Corp Tab:", e); }
 }
 
-// 1. HQ Telemetry
 function calcOverhead() {
-  const semis = parseInt(document.getElementById('fleetSemis').value) || 0;
-  const box = parseInt(document.getElementById('fleetBox').value) || 0;
-  const vans = parseInt(document.getElementById('fleetVans').value) || 0;
+  const semis = parseFloat(document.getElementById('fleetSemis')?.value) || 0;
+  const box = parseFloat(document.getElementById('fleetBox')?.value) || 0;
+  const vans = parseFloat(document.getElementById('fleetVans')?.value) || 0;
   
-  const dispBase = parseFloat(document.getElementById('dispBase').value) || 0;
-  const mgrBase = parseFloat(document.getElementById('mgrBase').value) || 0;
-  const feeSemi = parseFloat(document.getElementById('feeSemi').value) || 0;
-  const feeBox = parseFloat(document.getElementById('feeBox').value) || 0;
-  const feeVan = parseFloat(document.getElementById('feeVan').value) || 0;
-  const insPremium = parseFloat(document.getElementById('insPremium').value) || 0;
+  const dispBase = parseFloat(document.getElementById('dispBase')?.value) || 0;
+  const mgrBase = parseFloat(document.getElementById('mgrBase')?.value) || 0;
+  const feeSemi = parseFloat(document.getElementById('feeSemi')?.value) || 0;
+  const feeBox = parseFloat(document.getElementById('feeBox')?.value) || 0;
+  const feeVan = parseFloat(document.getElementById('feeVan')?.value) || 0;
+  const insPremium = parseFloat(document.getElementById('insPremium')?.value) || 0;
 
   const basePayroll = dispBase + mgrBase;
   const vehicleFees = (semis * feeSemi) + (box * feeBox) + (vans * feeVan);
@@ -75,53 +76,52 @@ function calcOverhead() {
   document.getElementById('hqTotalBurn').innerHTML = `-$${totalBurn.toLocaleString()} <span class="text-sm text-slate-500">/ hr</span>`;
 }
 
-// 2. Route Yields (Integrated Truck Tiers & Corp Buffs)
 function calcHaul() {
-  const seasonKey = document.getElementById('globalSeason').value;
-  const isVip = document.getElementById('vipPass').checked;
-  const basePay = parseFloat(document.getElementById('basePay').value) || 0;
-  const distance = parseFloat(document.getElementById('distance').value) || 0;
-  const baseEta = parseFloat(document.getElementById('tripMinutes').value) || 1;
-  const cargoType = document.getElementById('cargoType').value;
-  const flashEventKey = document.getElementById('flashEvent').value;
-  const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 18.97;
+  const seasonKey = document.getElementById('globalSeason')?.value || 'summer';
+  const isVip = document.getElementById('vipPass')?.checked || false;
+  const basePay = parseFloat(document.getElementById('basePay')?.value) || 0;
+  const distance = parseFloat(document.getElementById('distance')?.value) || 0;
+  const baseEta = parseFloat(document.getElementById('tripMinutes')?.value) || 0;
+  const cargoType = document.getElementById('cargoType')?.value || '';
+  const flashEventKey = document.getElementById('flashEvent')?.value || 'none';
+  const fuelPrice = parseFloat(document.getElementById('fuelPrice')?.value) || 0;
   
-  const corpActive = document.getElementById('corpActive').checked;
-  const corpFuel = document.getElementById('corpFuel').checked;
-  const event2x = document.getElementById('event2x').checked;
-  const lvlFreight = parseFloat(document.getElementById('lvlFreight').value) || 0;
-  const lvlLogistics = parseFloat(document.getElementById('lvlLogistics').value) || 0;
-  const tierKey = document.getElementById('truckTier').value;
+  const corpActive = document.getElementById('corpActive')?.checked || false;
+  const corpFuel = document.getElementById('corpFuel')?.checked || false;
+  const event2x = document.getElementById('event2x')?.checked || false;
+  const lvlFreight = parseFloat(document.getElementById('lvlFreight')?.value) || 0;
+  const lvlLogistics = parseFloat(document.getElementById('lvlLogistics')?.value) || 0;
+  const tierKey = document.getElementById('truckTier')?.value || 'star_1';
 
-  const seasonData = gameData.seasons[seasonKey];
+  // Fallback defaults if data.json is missing keys
+  const seasonData = gameData.seasons?.[seasonKey] || { global_pay_mult: 1, fuel_cost_mult: 1, bonuses: {} };
   const cargoBonus = seasonData.bonuses[cargoType] || 0.0;
-  const eventBonus = (flashEventKey !== 'none' && gameData.flash_events[flashEventKey]) ? gameData.flash_events[flashEventKey].pay_bonus : 0.0;
+  const eventBonus = (flashEventKey !== 'none' && gameData.flash_events?.[flashEventKey]) ? gameData.flash_events[flashEventKey].pay_bonus : 0.0;
   const vipMultiplier = isVip ? 1.20 : 1.0;
-  const truckStats = gameData.truck_tiers[tierKey];
+  const truckStats = gameData.truck_tiers?.[tierKey] || { speed_bonus: 0, fuel_reduction: 0 };
+  const corp = gameData.corporate || { delivery_tax: 0, specialty_perk: 0, scaling: { payout_per_level: 0, speed_per_level: 0 } };
+  const baselineMpg = gameData.fuel?.baseline_mpg || 9.58;
   
-  // Calculate Gross
   let grossMultiplier = seasonData.global_pay_mult * vipMultiplier * (1 + cargoBonus + eventBonus);
   if (corpActive) {
-    const dynamicPayoutPerk = lvlFreight * gameData.corporate.scaling.payout_per_level;
-    grossMultiplier *= (1 + dynamicPayoutPerk + gameData.corporate.specialty_perk);
+    const dynamicPayoutPerk = lvlFreight * corp.scaling.payout_per_level;
+    grossMultiplier *= (1 + dynamicPayoutPerk + corp.specialty_perk);
   }
   let gross = basePay * grossMultiplier;
-  let tax = corpActive ? (gross * gameData.corporate.delivery_tax) : 0;
+  let tax = corpActive ? (gross * corp.delivery_tax) : 0;
   let payout = gross - tax;
 
-  // Calculate Fuel
   let fuelCost = 0;
   if (!corpFuel) {
-    const mpg = gameData.fuel.baseline_mpg / (1 - truckStats.fuel_reduction);
-    const gallons = (distance / mpg) * seasonData.fuel_cost_mult;
+    const mpg = baselineMpg / (1 - truckStats.fuel_reduction);
+    const gallons = mpg > 0 ? (distance / mpg) * seasonData.fuel_cost_mult : 0;
     fuelCost = gallons * fuelPrice;
   }
   let net = payout - fuelCost;
 
-  // Calculate Speed
   let effectiveEta = baseEta;
   if (corpActive) {
-    const dynamicSpeedPerk = lvlLogistics * gameData.corporate.scaling.speed_per_level;
+    const dynamicSpeedPerk = lvlLogistics * corp.scaling.speed_per_level;
     effectiveEta /= (1 + dynamicSpeedPerk);
   }
   effectiveEta /= (1 + truckStats.speed_bonus);
@@ -135,15 +135,14 @@ function calcHaul() {
   document.getElementById('outRate').innerText = `$${Math.round(rate).toLocaleString()} / min`;
 }
 
-// 3. Business Contracts EV
 function calcContracts() {
-  const pallets = parseFloat(document.getElementById('cPallets').value) || 0;
-  const rate = parseFloat(document.getElementById('cRate').value) || 0;
-  const chance15 = (parseFloat(document.getElementById('chance15').value) || 0) / 100;
-  const chance30 = (parseFloat(document.getElementById('chance30').value) || 0) / 100;
+  const pallets = parseFloat(document.getElementById('cPallets')?.value) || 0;
+  const rate = parseFloat(document.getElementById('cRate')?.value) || 0;
+  const chance15 = (parseFloat(document.getElementById('chance15')?.value) || 0) / 100;
+  const chance30 = (parseFloat(document.getElementById('chance30')?.value) || 0) / 100;
   
   const basePayout = pallets * rate;
-  const totalBase = basePayout * 1.10; // Includes 10% completion bonus
+  const totalBase = basePayout * 1.10; 
 
   const ev15 = (totalBase * 1.15) * chance15;
   const ev30 = (totalBase * 1.30) * chance30;
@@ -155,7 +154,10 @@ function calcContracts() {
   document.getElementById('evCounter30').innerText = `$${Math.round(ev30).toLocaleString()}`;
 
   const recEl = document.getElementById('contractRecommendation');
-  if (ev15 > ev30 && ev15 > totalBase) {
+  if (totalBase === 0) {
+    recEl.innerText = "Waiting for input...";
+    recEl.className = "mt-4 text-center text-xs font-bold uppercase tracking-wide text-slate-500";
+  } else if (ev15 > ev30 && ev15 > totalBase) {
     recEl.innerText = "Recommendation: Submit +15% Counter (Optimal Risk EV)";
     recEl.className = "mt-4 text-center text-xs font-bold uppercase tracking-wide text-brand-success";
   } else if (ev30 >= ev15 && ev30 > totalBase) {
@@ -167,12 +169,11 @@ function calcContracts() {
   }
 }
 
-// 4. Federal Co-Op
 function calcFederal() {
-  const pallets = parseFloat(document.getElementById('fPallets').value) || 0;
-  const payout = parseFloat(document.getElementById('fPayout').value) || 0;
-  const hostCap = parseFloat(document.getElementById('fHostCap').value) || 0;
-  const partnerCap = parseFloat(document.getElementById('fPartnerCap').value) || 0;
+  const pallets = parseFloat(document.getElementById('fPallets')?.value) || 0;
+  const payout = parseFloat(document.getElementById('fPayout')?.value) || 0;
+  const hostCap = parseFloat(document.getElementById('fHostCap')?.value) || 0;
+  const partnerCap = parseFloat(document.getElementById('fPartnerCap')?.value) || 0;
 
   const deposit = payout * 0.08;
   const soloHours = hostCap > 0 ? (pallets / hostCap) : 0;
@@ -185,34 +186,35 @@ function calcFederal() {
   document.getElementById('fCoopRate').innerText = `$${Math.round(coopRate).toLocaleString()} / hr`;
 }
 
-// 5. Offline AFK Dispatcher
 function calcOffline() {
-  const drivers = parseFloat(document.getElementById('afkDrivers').value) || 0;
-  const rate10m = parseFloat(document.getElementById('afkRate').value) || 0;
-  const hours = parseFloat(document.getElementById('afkHours').value) || 0;
-  const wageCut = (parseFloat(document.getElementById('afkWage').value) || 0) / 100;
+  const drivers = parseFloat(document.getElementById('afkDrivers')?.value) || 0;
+  const rate10m = parseFloat(document.getElementById('afkRate')?.value) || 0;
+  const hours = parseFloat(document.getElementById('afkHours')?.value) || 0;
+  const wageCut = (parseFloat(document.getElementById('afkWage')?.value) || 0) / 100;
   
-  const fuelCovered = document.getElementById('afkFuel').checked;
-  const repairDiscountActive = document.getElementById('afkRepair').checked;
-  const lvlMaint = parseFloat(document.getElementById('lvlMaint').value) || 0;
-  const tierKey = document.getElementById('truckTier').value;
-  const truckStats = gameData.truck_tiers[tierKey];
+  const fuelCovered = document.getElementById('afkFuel')?.checked || false;
+  const repairDiscountActive = document.getElementById('afkRepair')?.checked || false;
+  const lvlMaint = parseFloat(document.getElementById('lvlMaint')?.value) || 0;
+  const tierKey = document.getElementById('truckTier')?.value || 'star_1';
+  
+  const truckStats = gameData.truck_tiers?.[tierKey] || { wear_reduction: 0, fuel_reduction: 0 };
+  const corp = gameData.corporate || { scaling: { repair_discount_per_level: 0 } };
+  const offDefs = gameData.offline_defaults || { maintenance_per_delivery: 965.80, fuel_per_delivery: 917.51 };
 
   const hourlyDeliveries = rate10m * 6;
   const totalDeliveries = hourlyDeliveries * hours;
 
-  // Empirical defaults
   const avgGrossPerDelivery = 14845;
   const companyRevPerDelivery = avgGrossPerDelivery * (1 - wageCut);
 
-  let maintPerDelivery = gameData.offline_defaults.maintenance_per_delivery;
-  maintPerDelivery *= (1 - truckStats.wear_reduction); // Truck Tier wear modifier
+  let maintPerDelivery = offDefs.maintenance_per_delivery;
+  maintPerDelivery *= (1 - truckStats.wear_reduction); 
   if (repairDiscountActive) {
-    const corpDiscount = lvlMaint * gameData.corporate.scaling.repair_discount_per_level;
+    const corpDiscount = lvlMaint * corp.scaling.repair_discount_per_level;
     maintPerDelivery *= (1 - corpDiscount);
   }
 
-  let fuelPerDelivery = fuelCovered ? 0 : gameData.offline_defaults.fuel_per_delivery * (1 - truckStats.fuel_reduction);
+  let fuelPerDelivery = fuelCovered ? 0 : offDefs.fuel_per_delivery * (1 - truckStats.fuel_reduction);
 
   const hourlyBankDrain = (maintPerDelivery + fuelPerDelivery) * hourlyDeliveries;
   const requiredBuffer = hourlyBankDrain * hours;
@@ -224,15 +226,16 @@ function calcOffline() {
   document.getElementById('outAfkTotal').innerText = `$${Math.round(totalCollect).toLocaleString()}`;
 }
 
-// 6. Corporate Assets (Manufacturing & Loans)
 function calcCorpAssets() {
-  // Manufacturing
-  const prod = parseFloat(document.getElementById('mfgProd').value) || 0;
-  const upkeep = parseFloat(document.getElementById('mfgUpkeep').value) || 0;
-  const stored = parseFloat(document.getElementById('mfgStock').value) || 0;
-  const lvlWarehouse = parseFloat(document.getElementById('lvlWarehouse').value) || 0;
+  const prod = parseFloat(document.getElementById('mfgProd')?.value) || 0;
+  const upkeep = parseFloat(document.getElementById('mfgUpkeep')?.value) || 0;
+  const stored = parseFloat(document.getElementById('mfgStock')?.value) || 0;
+  const lvlWarehouse = parseFloat(document.getElementById('lvlWarehouse')?.value) || 0;
 
-  const maxCapacity = gameData.manufacturing.base_storage + (lvlWarehouse * gameData.corporate.scaling.storage_per_level);
+  const baseStorage = gameData.manufacturing?.base_storage || 13500;
+  const storagePerLevel = gameData.corporate?.scaling?.storage_per_level || 3000;
+
+  const maxCapacity = baseStorage + (lvlWarehouse * storagePerLevel);
   const costBasis = prod > 0 ? (upkeep / prod) : 0;
   const spaceRemaining = Math.max(0, maxCapacity - stored);
   const monthsUntilFull = prod > 0 ? (spaceRemaining / prod) : 0;
@@ -241,10 +244,9 @@ function calcCorpAssets() {
   document.getElementById('outMfgCap').innerText = `${maxCapacity.toLocaleString()}`;
   document.getElementById('outMfgTime').innerText = `${monthsUntilFull.toFixed(1)}`;
 
-  // Loans
-  const amount = parseFloat(document.getElementById('loanAmount').value) || 0;
-  const term = parseFloat(document.getElementById('loanTerm').value) || 1;
-  const rate = (parseFloat(document.getElementById('loanRate').value) || 0) / 100;
+  const amount = parseFloat(document.getElementById('loanAmount')?.value) || 0;
+  const term = parseFloat(document.getElementById('loanTerm')?.value) || 0;
+  const rate = (parseFloat(document.getElementById('loanRate')?.value) || 0) / 100;
 
   const totalInterest = amount * rate;
   const totalRepayment = amount + totalInterest;

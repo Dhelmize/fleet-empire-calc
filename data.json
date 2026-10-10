@@ -9,83 +9,12 @@
     "baseline_mpg": 9.58,
     "market_avg_price": 19.00
   },
-  "passes": {
-    "vip_pay_multiplier": 1.20,
-    "route_opt_speed_bonus": 0.16,
-    "maintenance_bay_discount": 0.24,
-    "maintenance_bay_breakdown_reduction": 0.16
-  },
-  "staff": {
-    "dispatcher": {
-      "base_salary": 75000,
-      "turnaround_seconds": 9,
-      "vehicle_fees": {
-        "semi": 5000,
-        "box": 2000,
-        "van": 1000
-      }
-    },
-    "fleet_manager": {
-      "salary": 14000,
-      "roadside_minutes": 1,
-      "auto_refuel_threshold": 0.50,
-      "auto_repair_threshold": 0.75
-    },
-    "escort_crew": {
-      "upkeep_monthly": 1500,
-      "fallback_fee_rate": 0.10,
-      "fallback_fee_min": 2000
-    }
-  },
-  "insurance": {
-    "premium_full": 166801,
-    "deductible": 1650,
-    "repair_coverage": 0.50,
-    "cargo_coverage": 1.00,
-    "claim_cap": 27500000,
-    "risk_limit": 88
-  },
-  "loans": {
-    "none": {
-      "name": "None",
-      "hourly_payment": 0
-    },
-    "small": {
-      "name": "Small Business Loan ($100k @ 6%)",
-      "hourly_payment": 8834
-    },
-    "fleet": {
-      "name": "Fleet Expansion Loan ($600k @ 8%)",
-      "hourly_payment": 27000
-    },
-    "commercial": {
-      "name": "Commercial Loan ($2.5M @ 10%)",
-      "hourly_payment": 76389
-    }
-  },
-  "negotiations": {
-    "completion_bonus_rate": 0.10,
-    "counter_offers": {
-      "counter_15": {
-        "multiplier": 1.15,
-        "win_rate": 0.97
-      },
-      "counter_30": {
-        "multiplier": 1.30,
-        "win_rate": 0.79
-      }
-    }
-  },
-  "federal": {
-    "security_deposit_rate": 0.08
-  },
   "seasons": {
     "summer": {
       "name": "Summer",
       "global_pay_mult": 1.04,
       "fuel_cost_mult": 1.02,
       "wear_cost_mult": 1.00,
-      "accident_mult": 0.92,
       "bonuses": {
         "Cold Beverages": 0.25,
         "Outdoor Products": 0.20,
@@ -100,7 +29,6 @@
       "global_pay_mult": 1.02,
       "fuel_cost_mult": 1.03,
       "wear_cost_mult": 1.05,
-      "accident_mult": 1.00,
       "bonuses": {
         "Farm Equipment": 0.30,
         "Building Materials": 0.25,
@@ -113,13 +41,29 @@
     }
   },
   "flash_events": {
-    "none": {
-      "name": "None Active",
-      "pay_bonus": 0.0
-    },
-    "spring_construction": {
-      "name": "Spring Construction Rush",
-      "pay_bonus": 0.30
+    "none": { "name": "None Active", "pay_bonus": 0.0 },
+    "spring_construction": { "name": "Spring Construction Rush", "pay_bonus": 0.30 }
+  },
+  "truck_tiers": {
+    "star_1": { "label": "1-Star (Stock)", "speed_bonus": 0.00, "wear_reduction": 0.00, "fuel_reduction": 0.00 },
+    "star_2": { "label": "2-Star Upgraded", "speed_bonus": 0.08, "wear_reduction": 0.15, "fuel_reduction": 0.03 },
+    "star_3": { "label": "3-Star Maxed", "speed_bonus": 0.08, "wear_reduction": 0.18, "fuel_reduction": 0.04 }
+  },
+  "corporate": {
+    "delivery_tax": 0.05,
+    "specialty_perk": 0.05,
+    "scaling": {
+      "payout_per_level": 0.01,
+      "speed_per_level": 0.02,
+      "repair_discount_per_level": 0.02,
+      "storage_per_level": 3000
     }
+  },
+  "manufacturing": {
+    "base_storage": 13500
+  },
+  "offline_defaults": {
+    "maintenance_per_delivery": 965.80,
+    "fuel_per_delivery": 917.51
   }
 }

@@ -1,8 +1,89 @@
-<!-- TAB 1: HQ & OVERHEAD -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleet Empire Hub | nihil.fyi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              bg: '#12141a',
+              panel: '#1e222b',
+              border: '#2a303c',
+              input: '#0f1217',
+              accent: '#f28f16',
+              success: '#10b981',
+              danger: '#ef4444'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #12141a; }
+    ::-webkit-scrollbar-thumb { background: #2a303c; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f4758; }
+    input[type="number"]::-webkit-inner-spin-button, 
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type="number"] { -moz-appearance: textfield; }
+  </style>
+</head>
+<body class="bg-brand-bg text-slate-300 min-h-screen antialiased selection:bg-brand-accent selection:text-white flex flex-col font-sans">
+
+  <!-- TOP NAVIGATION BAR -->
+  <div class="bg-brand-panel border-b border-brand-border shadow-md">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="h-4 w-4 bg-brand-accent rounded-[3px]"></div>
+        <h1 class="text-lg font-bold tracking-wider text-white uppercase mt-0.5">Fleet Empire Hub</h1>
+        <span class="hidden md:block ml-4 px-2 py-0.5 rounded text-[10px] font-mono text-brand-accent bg-brand-accent/10 border border-brand-accent/20">v1.1.1</span>
+      </div>
+      <div class="flex items-center gap-4 h-full">
+        <div class="flex items-center gap-2 h-full border-l border-brand-border pl-4">
+          <span class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Season</span>
+          <select id="globalSeason" class="bg-transparent text-slate-200 font-mono text-sm font-bold outline-none cursor-pointer focus:text-brand-accent transition-colors">
+            <option value="summer">Summer (Pay x1.04)</option>
+            <option value="spring">Spring (Pay x1.02)</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-2 h-full border-l border-brand-border pl-4">
+          <label class="flex items-center gap-2 cursor-pointer group">
+            <input type="checkbox" id="vipPass" checked class="w-4 h-4 accent-brand-accent rounded bg-brand-input border-brand-border cursor-pointer">
+            <span class="text-sm font-bold text-slate-400 group-hover:text-white font-mono uppercase transition-colors mt-0.5">VIP Bonus</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUB NAVIGATION TABS -->
+  <div class="bg-brand-bg border-b border-brand-border shadow-sm sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-6 flex space-x-2">
+      <button onclick="switchTab('overview')" id="btn-overview" class="px-4 py-3 border-b-2 border-brand-accent text-white font-semibold tracking-wide text-xs uppercase transition-colors">HQ Operations</button>
+      <button onclick="switchTab('hauls')" id="btn-hauls" class="px-4 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-300 font-semibold tracking-wide text-xs uppercase transition-colors">Route Yields</button>
+      <button onclick="switchTab('contracts')" id="btn-contracts" class="px-4 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-300 font-semibold tracking-wide text-xs uppercase transition-colors">Business EV</button>
+      <button onclick="switchTab('federal')" id="btn-federal" class="px-4 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-300 font-semibold tracking-wide text-xs uppercase transition-colors">Federal Co-Op</button>
+    </div>
+  </div>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="flex-1 max-w-7xl w-full mx-auto p-6 lg:p-8">
+    
+    <!-- TAB 1: HQ & OVERHEAD -->
     <div id="tab-overview" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <!-- 1. Fleet Settings -->
         <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-5">
           <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs mb-5 flex items-center gap-2">
             <svg class="w-4 h-4 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -26,7 +107,6 @@
           </div>
         </div>
 
-        <!-- 2. Staff Payroll Rates -->
         <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-5">
           <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs mb-5 flex items-center gap-2">
             <svg class="w-4 h-4 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -69,7 +149,6 @@
           </div>
         </div>
 
-        <!-- 3. Insurance & Debt -->
         <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-5">
            <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs mb-5 flex items-center gap-2">
             <svg class="w-4 h-4 text-brand-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -77,7 +156,7 @@
           </h2>
           <div class="space-y-4">
              <div>
-                <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5 flex justify-between"><span>Monthly Premium</span> <span class="text-brand-danger">Based on Risk Score</span></label>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5 flex justify-between"><span>Monthly Premium</span> <span class="text-brand-danger">Risk Scaled</span></label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-xs">$</span></div>
                   <input type="number" id="insPremium" value="166801" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-2 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
@@ -95,7 +174,6 @@
 
       </div>
 
-      <!-- Telemetry Output -->
       <div class="bg-brand-bg border border-brand-border rounded shadow-sm p-6 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
         <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-bl-full pointer-events-none"></div>
         <div class="w-full md:w-1/2 md:border-r border-brand-border md:pr-6 mb-4 md:mb-0">
@@ -113,3 +191,221 @@
         </div>
       </div>
     </div>
+
+    <!-- TAB 2: ROUTE YIELDS -->
+    <div id="tab-hauls" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-6">
+            <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs mb-6 border-b border-brand-border pb-2">Route Parameters</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Base Contract Pay</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-slate-500 font-mono text-sm">$</span>
+                  </div>
+                  <input type="number" id="basePay" value="20841" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-brand-success font-mono text-lg focus:border-brand-accent outline-none transition-colors" />
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Cargo Type</label>
+                <select id="cargoType" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2.5 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none transition-colors h-[42px]">
+                  <optgroup label="General" class="bg-brand-panel">
+                    <option value="General Freight">General Freight (Base)</option>
+                    <option value="Auto Parts">Auto Parts</option>
+                  </optgroup>
+                  <optgroup label="Summer Specific" class="bg-brand-panel">
+                    <option value="Cold Beverages">Cold Beverages</option>
+                    <option value="Outdoor Products">Outdoor Products</option>
+                    <option value="Summer Produce">Summer Produce</option>
+                    <option value="Camping Gear">Camping Gear</option>
+                  </optgroup>
+                  <optgroup label="Spring Specific" class="bg-brand-panel">
+                    <option value="Building Materials">Building Materials</option>
+                    <option value="Farm Equipment">Farm Equipment</option>
+                    <option value="Lumber">Lumber</option>
+                    <option value="Fertilizer">Fertilizer</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Distance</label>
+                <div class="relative">
+                  <input type="number" id="distance" value="450" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none transition-colors" />
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-slate-500 font-mono text-xs">mi</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Trip ETA</label>
+                <div class="relative">
+                  <input type="number" id="tripMinutes" step="0.1" value="3.91" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none transition-colors" />
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-slate-500 font-mono text-xs">min</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Fuel Price</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-slate-500 font-mono text-xs">$</span>
+                  </div>
+                  <input type="number" id="fuelPrice" step="0.01" value="18.97" class="w-full bg-brand-input border border-brand-border rounded pl-6 pr-8 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none transition-colors" />
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-slate-500 font-mono text-xs">/gal</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-4 flex items-center gap-4">
+            <label class="block text-[10px] font-semibold text-slate-500 uppercase w-32 shrink-0">Market Event</label>
+            <select id="flashEvent" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-brand-accent font-mono text-sm focus:border-brand-accent outline-none transition-colors">
+              <option value="none" class="text-slate-200">None Active</option>
+              <option value="spring_construction">Spring Construction Rush (+30%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bg-brand-bg border border-brand-border rounded shadow-sm p-6 flex flex-col relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-full h-1 bg-brand-success"></div>
+          <h2 class="text-slate-400 font-bold uppercase tracking-wider text-[10px] mb-6 text-center">Net Yield Telemetry</h2>
+          
+          <div class="space-y-6 flex-1 flex flex-col justify-center">
+            <div class="text-center">
+              <span class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Gross Payout</span>
+              <p id="outGross" class="text-2xl font-bold text-slate-200 font-mono leading-none">$0</p>
+            </div>
+            
+            <div class="text-center">
+              <span class="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Fuel Consumption</span>
+              <p id="outFuel" class="text-xl font-bold text-brand-danger font-mono leading-none">-$0</p>
+            </div>
+            
+            <div class="pt-6 border-t border-brand-border text-center">
+              <span class="block text-[10px] font-bold text-brand-success uppercase mb-2 tracking-widest">Pure Net Profit</span>
+              <p id="outNet" class="text-4xl font-black text-brand-success font-mono leading-none">$0</p>
+            </div>
+          </div>
+          
+          <div class="mt-6 pt-4 bg-brand-panel rounded border border-brand-border p-3 text-center">
+            <span class="block text-[9px] text-slate-500 uppercase font-bold mb-1">Profit Velocity</span>
+            <p id="outRate" class="text-lg font-bold text-brand-accent font-mono">$0 / min</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: BUSINESS EV -->
+    <div id="tab-contracts" class="hidden space-y-6">
+      <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-6 max-w-4xl mx-auto">
+        <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs mb-5">Contract Parameters</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Total Pallets</label>
+            <input type="number" id="cPallets" value="8194" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Rate / Pallet</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-sm">$</span></div>
+              <input type="number" id="cRate" value="1629" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Quoted Loads</label>
+            <input type="number" id="cLoads" value="257" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-4xl mx-auto border border-brand-border bg-brand-bg rounded p-6">
+        <h2 class="text-slate-400 font-bold uppercase tracking-wider text-[10px] mb-6 text-center border-b border-brand-border pb-2">Negotiation Expected Value (EV)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-brand-panel p-5 rounded border border-brand-border text-center hover:border-slate-500 transition-colors">
+            <span class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Accept As-Is (100% Win)</span>
+            <p id="evAccept" class="text-2xl font-bold text-white font-mono">$0</p>
+            <span class="text-[9px] text-slate-500 mt-2 block uppercase">+10% Comp. Bonus</span>
+          </div>
+          <div class="bg-brand-panel p-5 rounded border-2 border-brand-success/50 text-center relative shadow-[0_0_15px_rgba(16,185,129,0.05)]">
+            <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-brand-success text-black text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider">Optimal</div>
+            <span class="block text-[10px] font-bold text-brand-success uppercase mb-2">Counter +15% (~97% Win)</span>
+            <p id="evCounter15" class="text-2xl font-bold text-brand-success font-mono">$0</p>
+            <span class="text-[9px] text-brand-success/60 mt-2 block uppercase">Highest EV</span>
+          </div>
+          <div class="bg-brand-panel p-5 rounded border border-brand-danger/30 text-center hover:border-brand-danger transition-colors">
+            <span class="block text-[10px] font-bold text-brand-accent uppercase mb-2">Counter +30% (~79% Win)</span>
+            <p id="evCounter30" class="text-2xl font-bold text-brand-accent font-mono">$0</p>
+            <span class="text-[9px] text-slate-500 mt-2 block uppercase">High Risk</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: FEDERAL CO-OP -->
+    <div id="tab-federal" class="hidden">
+      <div class="bg-brand-panel border border-brand-border rounded shadow-sm p-6 max-w-5xl mx-auto space-y-6">
+        <h2 class="text-slate-200 font-semibold uppercase tracking-wider text-xs border-b border-brand-border pb-2">Co-Op Logistics Parameters</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Contract Pallets</label>
+            <input type="number" id="fPallets" value="2760" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Total Payout</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="text-slate-500 font-mono text-sm">$</span></div>
+              <input type="number" id="fPayout" value="2266880" class="w-full bg-brand-input border border-brand-border rounded pl-7 pr-3 py-2 text-brand-success font-mono text-sm focus:border-brand-accent outline-none" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-500 uppercase mb-1.5">Host Cap (Pal/Hr)</label>
+            <input type="number" id="fHostCap" value="1515" class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-brand-accent uppercase mb-1.5">Partner Cap (Pal/Hr)</label>
+            <input type="number" id="fPartnerCap" value="1500" class="w-full bg-brand-input border border-brand-accent/50 rounded px-3 py-2 text-slate-200 font-mono text-sm focus:border-brand-accent outline-none" />
+          </div>
+        </div>
+
+        <div class="bg-brand-bg border border-brand-border rounded p-6 mt-4">
+          <h2 class="text-slate-400 font-bold uppercase tracking-wider text-[10px] mb-4 text-center">Operation Telemetry</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-x divide-brand-border">
+            <div class="px-2">
+              <span class="block text-[9px] text-slate-500 font-bold uppercase mb-1">Deposit (8%)</span>
+              <p id="fDeposit" class="text-lg font-bold text-brand-danger font-mono">-$0</p>
+            </div>
+            <div class="px-2">
+              <span class="block text-[9px] text-slate-500 font-bold uppercase mb-1">Solo Time</span>
+              <p id="fSoloTime" class="text-lg font-bold text-slate-300 font-mono">0.0 hrs</p>
+            </div>
+            <div class="px-2">
+              <span class="block text-[9px] text-brand-success font-bold uppercase mb-1">Co-Op Time</span>
+              <p id="fCoopTime" class="text-lg font-bold text-brand-success font-mono">0.0 hrs</p>
+            </div>
+            <div class="px-2">
+              <span class="block text-[9px] text-brand-accent font-bold uppercase mb-1">Gross Co-Op / Hr</span>
+              <p id="fCoopRate" class="text-lg font-bold text-brand-accent font-mono">$0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
